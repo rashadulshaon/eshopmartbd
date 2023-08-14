@@ -20,6 +20,11 @@ const deliveryChargeField = document.querySelector(".shippingMethod");
 const discountField = document.querySelector(".discount");
 const grandTotalField = document.querySelector(".grandTotal");
 
+const extractPriceFromTitle = (title) => {
+const match = title.match(/\[৳(\d+)\]/);
+return match && match[1] ? parseFloat(match[1]) : 0;
+};
+
 const calculateAndPrintTotal = () => {
 let totalAmount = 0;
 
@@ -28,8 +33,8 @@ const liTag = row.querySelector(".itemProduct li");
 const quantityInput = row.querySelector(".itemQuantity input");
 
 if (liTag && quantityInput) {
-const priceMatch = liTag.getAttribute("title").match(/\d+/);
-const price = priceMatch ? parseFloat(priceMatch[0]) : 0;
+const price = extractPriceFromTitle(liTag.textContent);
+console.log(price)
 const quantity = parseFloat(quantityInput.value) || 0;
 
 totalAmount += isNaN(price) || isNaN(quantity) ? 0 : price * quantity;
